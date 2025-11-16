@@ -6,13 +6,15 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
-import com.pedropathing.ftc.localization.constants.PinpointConstants;
+import com.pedropathing.ftc.localization.Encoder;
+import com.pedropathing.ftc.localization.constants.DriveEncoderConstants;
 import com.pedropathing.paths.PathConstraints;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+@TeleOp(name="Tuning", group="Linear OpMode")
 public class Constants {
 
     public static FollowerConstants followerConstants = new FollowerConstants()
@@ -42,16 +44,21 @@ public class Constants {
             .yVelocity(49.88)  // was 26.99
             .useBrakeModeInTeleOp(true);
 
-    public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(1)
-            .strafePodX(-2.5)
-            .distanceUnit(DistanceUnit.INCH)
-            .hardwareMapName("pinpoint")
-            .yawScalar(1.0)
-            .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
-//            .customEncoderResolution(13.26291192)
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
-            .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+    public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
+            .leftFrontMotorName("front_left_motor")
+            .leftRearMotorName("back_left_motor")
+            .rightFrontMotorName("front_right_motor")
+            .rightRearMotorName("back_right_motor")
+            .leftFrontEncoderDirection(Encoder.REVERSE)
+            .leftRearEncoderDirection(Encoder.REVERSE)
+            .rightFrontEncoderDirection(Encoder.FORWARD)
+            .rightRearEncoderDirection(Encoder.FORWARD)
+            .robotWidth(16.92)
+            .robotLength(17.7)
+            .forwardTicksToInches(1)
+            .strafeTicksToInches(1)
+            .turnTicksToInches(1);
+
 
     public static PathConstraints pathConstraints = new PathConstraints(
             0.995,
@@ -62,7 +69,7 @@ public class Constants {
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
                 .mecanumDrivetrain(driveConstants)
-                .pinpointLocalizer(localizerConstants)
+                .driveEncoderLocalizer(localizerConstants)
                 .pathConstraints(pathConstraints)
                 .build();
     }

@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.pedroPathing.tuning;
 
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="ControleOpMode", group="Linear OpMode")
 
@@ -15,6 +15,8 @@ public class ControleOpMode extends LinearOpMode {
     private DcMotor backLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
+
+    Follower follower;
 
     @Override
     public void runOpMode() {
@@ -40,10 +42,20 @@ public class ControleOpMode extends LinearOpMode {
         while (opModeIsActive()) {
             double max;
 
+
+
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
+
+            telemetry.addData("x:", follower.getPose().getX());
+            telemetry.addData("y:", follower.getPose().getY());
+            telemetry.addData("heading:",
+                    Math.toDegrees(follower.getPose().getHeading()));
+            telemetry.addData("total heading:",
+                    Math.toDegrees(follower.getTotalHeading()));
+            telemetry.update();
 
             double speedScale = 0.7;
 
@@ -90,9 +102,5 @@ public class ControleOpMode extends LinearOpMode {
             backRightDrive.setPower(backRightPower);
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
-            telemetry.update();
         }
     }}
