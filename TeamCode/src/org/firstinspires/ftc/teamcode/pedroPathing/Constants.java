@@ -19,15 +19,15 @@ public class Constants {
 
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(10)
-            .forwardZeroPowerAcceleration(-10)    // was -10
-            .lateralZeroPowerAcceleration(-10)    // was -10
+            .forwardZeroPowerAcceleration(-12)    // was -10
+            .lateralZeroPowerAcceleration(-12)    // was -10
             .useSecondaryTranslationalPIDF(false)
             .useSecondaryHeadingPIDF(false)
             .useSecondaryDrivePIDF(false)
-            .centripetalScaling(0.0005)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.01, 0))  // was 0.3, 0, 0.01, 0
-            .headingPIDFCoefficients(new PIDFCoefficients(2, 0, 0.01, 0))  // was 5, 0, 0, 0
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.02, 0, 0.002, 0, 0.3));  // was 0.05, 0, 0, 0.6, 0
+            .centripetalScaling(0.00055)
+            .translationalPIDFCoefficients(new PIDFCoefficients(0, 0, 0, 0))  // was 0.3, 0, 0.01, 0
+            .headingPIDFCoefficients(new PIDFCoefficients(0, 0, 0, 0))  // was 5, 0, 0, 0
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.05, 0, 0, 0, 0));  // was 0.05, 0, 0, 0.6, 0
 
 
     public static MecanumConstants driveConstants = new MecanumConstants()
@@ -40,8 +40,8 @@ public class Constants {
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
 
-            .xVelocity(49.88)   // was 26.99
-            .yVelocity(49.88)  // was 26.99
+            .xVelocity(26.99)   // was 26.99
+            .yVelocity(26.99)  // was 26.99
             .useBrakeModeInTeleOp(true);
 
     public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
@@ -55,16 +55,17 @@ public class Constants {
             .rightRearEncoderDirection(Encoder.FORWARD)
             .robotWidth(16.92)
             .robotLength(17.7)
-            .forwardTicksToInches(1)
-            .strafeTicksToInches(1)
-            .turnTicksToInches(1);
+            .forwardTicksToInches(0.00884)
+            .strafeTicksToInches(0.01150)
+            .turnTicksToInches(0.02380);
+
 
 
     public static PathConstraints pathConstraints = new PathConstraints(
-            0.995,
-            500,
-            0.25,
-            1);
+            0.45,
+            30,
+            0.2,
+            10);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
